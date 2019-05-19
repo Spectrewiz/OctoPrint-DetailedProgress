@@ -46,6 +46,11 @@ class DetailedProgressPlugin(octoprint.plugin.EventHandlerPlugin,
 
 			message = self._get_next_message(currentData)
 			self._printer.commands("M117 {}".format(message))
+
+			if self._settings.get_boolean(["use_m73"]):
+				args = [round(currentData["progress"]["completion"]), round(currentData["progress"]["printTimeLeft"] / 60)]
+				self._printer.commands("M73 P{0} R{1}".format(*args))
+				self._printer.commands("M73 Q{0} S{1}".format(*args))
 		except Exception as e:
 			self._logger.info("Caught an exception {0}\nTraceback:{1}".format(e,traceback.format_exc()))
 
@@ -124,7 +129,8 @@ class DetailedProgressPlugin(octoprint.plugin.EventHandlerPlugin,
 			],
 			eta_strftime = "%H %M %S Day %d",
 			etl_format = "{hours:02d}h{minutes:02d}m{seconds:02d}s",
-			time_to_change = 10
+			time_to_change = 10,
+			use_m73 = False
 		)
 
 	##~~ Softwareupdate hook
