@@ -48,7 +48,7 @@ class DetailedProgressPlugin(octoprint.plugin.EventHandlerPlugin,
 			self._printer.commands("M117 {}".format(message))
 
 			if self._settings.get_boolean(["use_m73"]):
-				args = [round(currentData["progress"]["completion"]), round(currentData["progress"]["printTimeLeft"] / 60)]
+				args = [int(round(currentData["progress"]["completion"])), int(round(currentData["progress"]["printTimeLeft"] / 60))]
 				self._printer.commands("M73 P{0} R{1}".format(*args))
 				self._printer.commands("M73 Q{0} S{1}".format(*args))
 		except Exception as e:
