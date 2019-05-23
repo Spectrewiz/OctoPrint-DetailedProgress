@@ -48,7 +48,7 @@ class DetailedProgressPlugin(octoprint.plugin.EventHandlerPlugin,
 			self._printer.commands("M117 {}".format(message))
 
 			if self._settings.get_boolean(["use_m73"]):
-				args = [round(currentData["progress"]["completion"]), round(currentData["progress"]["printTimeLeft"] / 60)]
+        		args = [int(round(currentData["progress"]["completion"])), int(round(currentData["progress"]["printTimeLeft"] / 60))]
 				self._printer.commands("M73 P{0} R{1}".format(*args))
 				self._printer.commands("M73 Q{0} S{1}".format(*args))
 		except Exception as e:
@@ -143,12 +143,12 @@ class DetailedProgressPlugin(octoprint.plugin.EventHandlerPlugin,
 
 				# version check: github repository
 				type="github_release",
-				user="dattas",
+				user="Spectrewiz",
 				repo="OctoPrint-DetailedProgress",
 				current=self._plugin_version,
 
 				# update method: pip
-				pip="https://github.com/dattas/OctoPrint-DetailedProgress/archive/{target_version}.zip"
+				pip="https://github.com/Spectrewiz/OctoPrint-DetailedProgress/archive/{target_version}.zip"
 			)
 		)
 
